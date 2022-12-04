@@ -14,6 +14,6 @@ def duplicate_sectors():
 
                 total +=1
         print(total)
-#699¨, 891 ne
+
 if __name__ == "__main__":
     duplicate_sectors()

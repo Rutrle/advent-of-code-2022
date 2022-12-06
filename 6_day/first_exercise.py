@@ -5,7 +5,7 @@ def find_first_unique():
         for i in range(len(line)):
             test_set=set()
             flag=True
-            for n in range(4):
+            for n in range(14):
                 if line[i+n] in test_set:
                     flag=False
                     break
@@ -13,7 +13,7 @@ def find_first_unique():
                 elif line[i+n] not in test_set:
                     test_set.add(line[i+n])
             if flag:
-                print(i+4)
+                print(i+14)
                 break
 
         

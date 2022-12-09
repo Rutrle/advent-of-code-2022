@@ -1,13 +1,9 @@
 import csv
 import numpy as np
-from copy import copy
 
-def tail_postitions_counter()-> int:
-    vertical=0
-    horizontal=0
+def tail_postitions_counter_universal()-> int:
     tail_positions=set()
-    #head_position=np.array([0,0])
-    knot_positions = np.array([0,0]*9)
+    knot_positions = np.zeros((9,2))
     tail_position=np.array([0,0])
     tail_positions.add(tuple(tail_position))
     
@@ -22,30 +18,28 @@ def tail_postitions_counter()-> int:
         for row in head_moves:
 
             for _ in range(int(row[1])):
-                previous_head_position = copy(knot_positions[0])
                 knot_positions[0] += move_vectors[row[0]]
                 
-
-                for i, knot in enumerate(knot_positions[1:]):
+                for i in range(1,len(knot_positions)):
+                    distance_vector = ((knot_positions[i-1]) - (knot_positions[i])).astype('int32')
                     if abs(distance_vector[0])>1 or abs(distance_vector[1])>1:
-                        distance_vector = knot_positions[i-1] - knot_positions[i]
-                        knot_positions[i] = copy(knot_positions[i-1])
-                        
+                        increment = np.floor_divide(distance_vector,np.absolute(distance_vector),dtype='int32',out=np.zeros_like(distance_vector), where=distance_vector!=0)
+                        knot_positions[i] += increment
 
-                distance_vector = knot_positions[8] - tail_position
 
+                distance_vector = (knot_positions[8] - tail_position).astype('int32')
                 
-
+                
                 if abs(distance_vector[0])>1 or abs(distance_vector[1])>1:
-                    tail_position = copy(previous_head_position)
+                    increment = np.floor_divide(distance_vector,np.absolute(distance_vector),dtype='int32',out=np.zeros_like(distance_vector), where=distance_vector!=0)
+                    tail_position += increment
                     tail_positions.add(tuple(tail_position))
 
-                print(head_position, previous_head_position)
 
 
 
     return len(tail_positions)
 
 if __name__ == '__main__':
-    position_number = tail_postitions_counter()
+    position_number = tail_postitions_counter_universal()
     print(position_number)

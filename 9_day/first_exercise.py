@@ -50,15 +50,13 @@ def tail_postitions_counter_universal()-> int:
         for row in head_moves:
 
             for _ in range(int(row[1])):
-                previous_head_position = copy(head_position)
                 head_position += move_vectors[row[0]]
                 distance_vector = head_position - tail_position
 
                 if abs(distance_vector[0])>1 or abs(distance_vector[1])>1:
+
                     tail_position += copy(distance_vector//np.absolute(distance_vector))
                     tail_positions.add(tuple(tail_position))
-
-                print(head_position, previous_head_position)
 
 
 
